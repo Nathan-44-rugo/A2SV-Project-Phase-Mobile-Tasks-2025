@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_6/screens/add_screen.dart';
+import 'package:task_6/screens/product_search_screen.dart';
 import '../data/dummy_data.dart';
 import '../widgets/product_card.dart';
 
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 100,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -56,7 +58,11 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),
                   Spacer(),
-                  Icon(Icons.search, size: 35, color: Colors.grey),
+                  IconButton(onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProductSearchPage())
+                  ),
+                      icon: Icon(Icons.search, size: 35, color: Colors.grey)),
                 ],
               ),
             ),
