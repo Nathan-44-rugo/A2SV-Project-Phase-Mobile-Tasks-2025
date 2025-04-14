@@ -64,7 +64,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text("APPLY"),
+                child: Text("APPLY", style: TextStyle(color: Colors.white)),
               ),
             ),
           ],

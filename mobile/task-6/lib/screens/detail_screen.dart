@@ -140,7 +140,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: Text("UPDATE"),
+                            child: Text("UPDATE", style: TextStyle(color: Colors.white)),
                           ),
                         ),
                       ],

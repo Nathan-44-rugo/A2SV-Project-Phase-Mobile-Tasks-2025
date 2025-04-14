@@ -31,6 +31,4 @@ final List<Product> dummyProducts = [
     imagePath: 'assets/product.png',
     availableSizes: [39, 40, 41, 42, 43, 44],
   ),
-
-  // Add more products if needed
 ];

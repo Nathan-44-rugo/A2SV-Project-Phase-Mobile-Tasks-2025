@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_6/screens/add_screen.dart';
+import 'package:task_6/screens/add_productscreen.dart';
 import 'package:task_6/screens/product_search_screen.dart';
 import '../data/dummy_data.dart';
 import '../widgets/product_card.dart';
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(context,
-          MaterialPageRoute(builder: (_) => AddProduct())
+          MaterialPageRoute(builder: (_) => AddProductScreen())
         ),
         backgroundColor: Colors.blue,
         child: Icon(Icons.add, color: Colors.white),
