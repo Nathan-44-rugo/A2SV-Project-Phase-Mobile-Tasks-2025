@@ -36,8 +36,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
 
   void _loadAllProducts() async {
-    _allProducts = await loadProducts();
+    final products = await loadProducts();
+    setState(() {
+      _allProducts = products;
+    });
   }
+
 
   void _saveChanges() async {
     final updatedProduct = Product(
@@ -64,10 +68,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
-        title: Text("Edit Product", style: TextStyle(color: Colors.white)),
+        leading: IconButton(onPressed: () => Navigator.pushNamed(context, '/'), icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
+        title: Text("Edit Product", style: TextStyle(fontFamily: "Poppins", color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color.fromRGBO(0, 139, 0, 1),
       ),
       body: Padding(
@@ -94,7 +99,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: (){
-                  _saveChanges;
+                  _saveChanges();
                 },
                 style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Color.fromRGBO(0, 139, 0, 1))),
                 child: const Text(

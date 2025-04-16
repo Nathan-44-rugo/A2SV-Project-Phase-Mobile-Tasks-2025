@@ -17,19 +17,43 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Product Details"),
+        toolbarHeight: 100,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading:
+            IconButton(onPressed: () => Navigator.pushNamed(context, '/'), icon: Icon(Icons.arrow_back_ios_outlined, color: Colors.white,)),
+        title: Text("Product Details", style: TextStyle(fontFamily: "Poppins",color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Color.fromRGBO(0, 139, 0, 1),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Name: ${product.productName}", style: TextStyle(fontSize: 20)),
-            SizedBox(height: 10),
-            Text("Category: ${product.productCategory}", style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
-            Text("Price: \$${product.productPrice}", style: TextStyle(fontSize: 18)),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: 300,
+                maxWidth: 750,
+                maxHeight: 350,
+              ),
+              child: Card(
+                  elevation: 4,
+                  margin: const EdgeInsets.fromLTRB(10, 25, 10, 0),
+                  child:
+                    Column(
+                      children: [
+                        SizedBox(height: 35),
+                        Text(product.productName, style: TextStyle(fontSize: 24, fontFamily: "Poppins", fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+                        SizedBox(height: 25),
+                        Text("Price: \$${product.productPrice}", style: TextStyle(fontSize: 20, fontFamily: "Poppins"), textAlign: TextAlign.center,),
+                        SizedBox(height: 25),
+                        Text("Category: ${product.productCategory}", style: TextStyle(fontSize: 20, fontFamily: "Poppins"), textAlign: TextAlign.center,),
+                        SizedBox(height: 25),
+                        Text("Description: \n ${product.productDescription}", style: TextStyle(fontSize: 20, fontFamily: "Poppins"), textAlign: TextAlign.center,),
+                      ],
+                    )
+                ),
+            ),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,8 +67,8 @@ class ProductDetailScreen extends StatelessWidget {
                     );
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.edit),
-                  label: Text("Edit", style: TextStyle(color:Colors.white)),
+                  icon: Icon(Icons.edit, color: Colors.white,),
+                  label: Text("Edit", style: TextStyle(fontFamily: "Poppins", color:Colors.white)),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                 ),
                 ElevatedButton.icon(
@@ -52,8 +76,8 @@ class ProductDetailScreen extends StatelessWidget {
                     onDelete(index);
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.delete),
-                  label: Text("Delete", style: TextStyle(color:Colors.white)),
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  label: Text("Delete", style: TextStyle(fontFamily: "Poppins", color:Colors.white)),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                 ),
               ],

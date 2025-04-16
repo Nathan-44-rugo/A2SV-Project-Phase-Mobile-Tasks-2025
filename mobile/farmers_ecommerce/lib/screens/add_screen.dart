@@ -34,7 +34,7 @@ class _AddScreenState extends State<AddScreen> {
         const SnackBar(content: Text('Product Saved!')),
       );
 
-      Navigator.pop(context); // go back to previous screen
+      Navigator.pushNamed(context, '/'); // go back to previous screen
     }
   }
 
@@ -42,6 +42,7 @@ class _AddScreenState extends State<AddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
             onPressed: () => Navigator.pushNamed(context, '/'),
             icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.white)),
@@ -54,7 +55,6 @@ class _AddScreenState extends State<AddScreen> {
               fontFamily: "Poppins",
               fontWeight: FontWeight.bold,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
         backgroundColor: Color.fromRGBO(0, 139, 0, 1),
@@ -102,12 +102,12 @@ class _AddScreenState extends State<AddScreen> {
                   validator: (value) =>
                   value == null || value.isEmpty ? 'Enter description' : null,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 45),
                 ElevatedButton(
                   onPressed: _handleSubmit,
                   child: const Text(
                     'Submit',
-                    style: TextStyle(color: Color.fromRGBO(0, 139, 0, 1)),
+                    style: TextStyle(fontFamily: "Poppins", color: Color.fromRGBO(0, 139, 0, 1)),
                   ),
                 ),
               ],

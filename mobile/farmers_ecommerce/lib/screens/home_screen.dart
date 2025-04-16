@@ -1,3 +1,4 @@
+import 'package:farmers_ecommerce/screens/add_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/product.dart';
 import '../data/readwrite.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 100,
         title: Center(
           child: Text(
@@ -66,14 +68,23 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => ProductDetailScreen(
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 400),
+                    pageBuilder: (_, __, ___) => ProductDetailScreen(
                       product: p,
                       index: index,
                       onDelete: _deleteProduct,
                     ),
+                    transitionsBuilder: (_, animation, __, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.ease;
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      return SlideTransition(position: animation.drive(tween), child: child);
+                    },
                   ),
                 );
+
                 _loadProducts(); // refresh after detail screen
               },
             ),
@@ -81,8 +92,23 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        foregroundColor: Colors.white,
         onPressed: () async {
-          await Navigator.pushNamed(context, '/add');
+          await Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 400),
+              pageBuilder: (_, __, ___) => AddScreen(),
+              transitionsBuilder: (_, animation, __, child) {
+                const begin = Offset(0.0, 1.0);
+                const end = Offset.zero;
+                const curve = Curves.easeInOut;
+                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                return SlideTransition(position: animation.drive(tween), child: child);
+              },
+            ),
+          );
+
           _loadProducts(); // refresh after adding
         },
         backgroundColor: const Color.fromRGBO(0, 139, 0, 1),
