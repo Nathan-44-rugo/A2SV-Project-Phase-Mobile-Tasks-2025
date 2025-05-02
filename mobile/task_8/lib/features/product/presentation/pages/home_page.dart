@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../injection.dart';
 import '../../domain/entities/product.dart';
-import '../../domain/usecases/get_products.dart';
+import '../../domain/usecases/view_all_products_usecase.dart';
 import '../widgets/header.dart';
 import '../widgets/product_card.dart';
 
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadProducts() async {
-    final getProducts = sl<GetProducts>();
+    final getProducts = sl<ViewAllProductsUsecase>();
     final products = await getProducts();
     setState(() {
       _products = products;
@@ -52,18 +52,20 @@ class _HomePageState extends State<HomePage> {
                   return ProductCard(
                     product: _products[index],
                     onTap: () async {
-                      final updated = await Navigator.pushNamed(
+                      final result = await Navigator.pushNamed(
                         context,
                         '/view',
                         arguments: _products[index],
                       );
-                      if (updated == true) {
-                        _loadProducts(); // This will refresh the list
+
+                      if (result != null) {
+                        _loadProducts(); // Refresh if edited or deleted
                       }
                     },
-                  );
 
+                  );
                 },
+
               ),
             ),
           ],

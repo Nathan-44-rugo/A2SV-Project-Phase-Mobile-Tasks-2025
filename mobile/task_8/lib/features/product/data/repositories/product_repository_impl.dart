@@ -9,29 +9,41 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<List<Product>> getProducts() async {
-    return await localDataSource.getProducts();
+  List<Product> getAllProducts() {
+    return localDataSource.getProducts();
   }
 
   @override
-  Future<void> addProduct(Product product) async {
+  Product? getProductById(String id) {
+    return localDataSource.getProductById(id);
+  }
+
+  @override
+  void createProduct(Product product) {
     final model = ProductModel(
       id: product.id,
+      imageUrl: product.imageUrl,
       name: product.name,
       description: product.description,
       price: product.price,
     );
-    await localDataSource.addProduct(model);
+    localDataSource.addProduct(model);
   }
 
   @override
-  Future<void> editProduct(Product product) async {
+  Future<void> updateProduct(Product product) async {
     final model = ProductModel(
       id: product.id,
+      imageUrl: product.imageUrl,
       name: product.name,
       description: product.description,
       price: product.price,
     );
-    await localDataSource.editProduct(model);
+    localDataSource.editProduct(model);
+  }
+
+  @override
+  Future<void> deleteProduct(String id) async{
+    localDataSource.deleteProduct(id);
   }
 }

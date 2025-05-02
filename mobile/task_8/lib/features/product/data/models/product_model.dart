@@ -3,6 +3,7 @@ import '../../domain/entities/product.dart';
 class ProductModel extends Product {
   const ProductModel({
     required super.id,
+    required super.imageUrl,
     required super.name,
     required super.description,
     required super.price,
@@ -14,6 +15,7 @@ class ProductModel extends Product {
       name: json['name'],
       description: json['description'],
       price: (json['price'] as num).toDouble(),
+      imageUrl: json['imageUrl'],
     );
   }
 

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../injection.dart';
 import '../../domain/entities/product.dart';
-import '../../domain/usecases/edit_product.dart';
+import '../../domain/usecases/delete_product_usecase.dart';
+import '../../domain/usecases/update_product_usecase.dart';
 import '../widgets/header.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({super.key});
+  final Product product;
+
+  const EditPage({super.key, required this.product});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -17,21 +20,13 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _priceController;
-  Product? product;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (product != null) return;
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args is Product) {
-      product = args;
-      _nameController = TextEditingController(text: product!.name);
-      _descriptionController = TextEditingController(text: product!.description);
-      _priceController = TextEditingController(text: product!.price.toString());
-    } else {
-      Navigator.pop(context);
-    }
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.product.name);
+    _descriptionController = TextEditingController(text: widget.product.description);
+    _priceController = TextEditingController(text: widget.product.price.toString());
   }
 
   @override
@@ -43,27 +38,41 @@ class _EditPageState extends State<EditPage> {
   }
 
   Future<void> _saveChanges() async {
-    if (_formKey.currentState!.validate() && product != null) {
+    if (_formKey.currentState!.validate()) {
       final updatedProduct = Product(
-        id: product!.id,
+        id: widget.product.id,
         name: _nameController.text,
         description: _descriptionController.text,
         price: double.parse(_priceController.text),
+        imageUrl: widget.product.imageUrl,
       );
 
-      await sl<EditProduct>().call(updatedProduct);
-      Navigator.pop(context, updatedProduct); // Return updated product
+      await sl<UpdateProductUsecase>().call(updatedProduct);
+      Navigator.pop(context, updatedProduct);
+    }
+  }
+
+  Future<void> _deleteProduct() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete this product?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await sl<DeleteProductUsecase>().call(widget.product.id);
+      Navigator.pop(context, 'deleted');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (product == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       appBar: const Header(),
       body: Padding(
@@ -106,6 +115,15 @@ class _EditPageState extends State<EditPage> {
                   ElevatedButton(
                     onPressed: _saveChanges,
                     child: const Text('Save Changes'),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _deleteProduct,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Delete'),
                   ),
                 ],
               ),

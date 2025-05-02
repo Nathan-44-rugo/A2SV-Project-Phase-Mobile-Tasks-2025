@@ -6,13 +6,6 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      actions: <Widget>[
-        IconButton(
-        onPressed: (){
-          Navigator.pushNamed(context, '/view');
-        },
-            icon: const Icon(Icons.view_agenda_outlined))
-      ],
       automaticallyImplyLeading: true,
       backgroundColor: const Color.fromRGBO(0, 130, 195, 1),
       centerTitle: true,

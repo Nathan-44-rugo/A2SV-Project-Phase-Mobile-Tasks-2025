@@ -3,9 +3,9 @@ import '../../domain/entities/product.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  const ProductCard({super.key, required this.product, required this.onTap});
+  const ProductCard({super.key, required this.product, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
         title: Text(product.name),
         subtitle: Text(product.description),
         trailing: Text('Ksh ${product.price.toStringAsFixed(2)}'),
-        onTap: onTap,
+        onTap: onTap, // Use the passed callback
       ),
     );
   }
