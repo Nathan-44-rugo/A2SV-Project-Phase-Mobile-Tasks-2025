@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'features/product/data/datasources/product_local_datasource.dart';  // Import local data source
-import 'features/product/data/repositories/product_repository_impl.dart';
+import 'features/product/data/datasources/product_remote_datasource.dart';
+import 'features/product/data/repositories/product_local_repository_impl.dart';
 import 'features/product/domain/repositories/product_repository.dart';
 import 'features/product/domain/usecases/create_product_usecase.dart';
 import 'features/product/domain/usecases/delete_product_usecase.dart';
@@ -14,7 +15,7 @@ void init() {
   sl.registerLazySingleton<ProductLocalDataSource>(() => ProductLocalDataSourceImpl());
 
   // Register ProductRepository with LocalDataSource
-  sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(localDataSource: sl<ProductLocalDataSource>()));
+  sl.registerLazySingleton<ProductRepository>(() => ProductLocalRepositoryImpl(localDataSource: sl<ProductLocalDataSource>(), remoteDataSource: sl<ProductRemoteDataSource>()));
 
   // Register use cases
   sl.registerLazySingleton<CreateProductUsecase>(() => CreateProductUsecase(sl<ProductRepository>()));
