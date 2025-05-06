@@ -20,6 +20,7 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _priceController;
+  late TextEditingController _imageUrlController;
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _EditPageState extends State<EditPage> {
     _nameController = TextEditingController(text: widget.product.name);
     _descriptionController = TextEditingController(text: widget.product.description);
     _priceController = TextEditingController(text: widget.product.price.toString());
+    _imageUrlController = TextEditingController(text: widget.product.imageUrl);
   }
 
   @override
@@ -34,6 +36,7 @@ class _EditPageState extends State<EditPage> {
     _nameController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -44,7 +47,7 @@ class _EditPageState extends State<EditPage> {
         name: _nameController.text,
         description: _descriptionController.text,
         price: double.parse(_priceController.text),
-        imageUrl: widget.product.imageUrl,
+        imageUrl: _imageUrlController.text,
       );
 
       await sl<UpdateProductUsecase>().call(updatedProduct);
@@ -110,6 +113,11 @@ class _EditPageState extends State<EditPage> {
                       }
                       return null;
                     },
+                  ),
+                  TextFormField(
+                    controller: _imageUrlController,
+                    decoration: const InputDecoration(labelText: 'Image Url'),
+                    validator: (val) => val == null || val.isEmpty ? 'Enter product image url' : null,
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
